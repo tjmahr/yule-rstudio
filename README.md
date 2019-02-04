@@ -10,7 +10,7 @@ Bring yuletide cheer and seasons greetings to your [favorite R IDE](https://rstu
 
 ![](images/floating-rstudio.png)
 
-Featuring magical additions such as a candy cane style line highlight and a blinking Christmas-light (vim) cursor:
+Featuring magical additions such as a candy cane style line highlight and a blinking Christmas-light cursor:
 
 <p align="center"><img src="images/blinking-cursor.gif"/></p>
 
@@ -18,28 +18,45 @@ Featuring magical additions such as a candy cane style line highlight and a blin
 
 You'll need RStudio version 1.2. Grab the [preview version here](https://www.rstudio.com/products/rstudio/download/preview/).
 
-1. Download [Yule-RStudio.rstheme](Yule-RStudio.rstheme) and place it in `~/.R/rstudio/themes`. 
+1. Run the following code in RStudio to download and apply the theme.
 
-2. In the RStudio appearance settings, select the _Yule RStudio_ editor theme. 
+   ```r
+   yule_theme <- fs::path_temp("Yule-RStudio", ext = "rstheme")
+   download.file("https://git.io/yule-rstudio", yule_theme)
+   rstudioapi::addTheme(yule_theme, apply = TRUE)
+   ```
 
-3. &#x2615; Make a cup of hot coco,
+1. &#x2615; Make a cup of hot coco,
 
     &#x1F4FB; turn on [SomaFM's Christmas Lounge](https://somafm.com/christmas/), 
     
     &#x1F4BB; and enjoy coding by the open fire.
 
+#### Manual Installation
 
-#### Download with R
+If the steps above don't work, you can manually download the [Yule-RStudio.rstheme](Yule-RStudio.rstheme) file and place it in `.R/rstudio/themes` in your R home directory (see `path.expand("~")`). Then, in the RStudio appearance settings, select the _Yule RStudio_ editor theme. 
 
-Use this code to download the theme file straight into the RStudio themes directory.
+### Disclaimer: This theme may waste some CPU cycles in the spirit of the holidays!
+
+This theme adds an animation to the regular and vim normal mode cursors that may increase your CPU usage.
+To disable animations, edit the theme file in `~/.R/rstudio/themes/Yule-RStudio.rstheme`
 
 ```r
-# I've only tested on Mac
-library(fs)
-rsthemes_dir <- path_home(".R", "rstudio", "themes")
-dir_create(rsthemes_dir)
-download.file(
-  "https://git.io/yule-rstudio",
-  path(rsthemes_dir, "Yule-RStudio.rstheme")
+rstudioapi::navigateToFile(
+  fs::path_home_r(".R", "rstudio", "themes", "Yule-RStudio.rstheme")
 )
+```
+
+Find the CSS blocks for `.ace_cursor` and `.normal-mode .ace_cursor` and comment out the lines starting with `animation-*`.
+
+```css
+.ace_cursor {
+  color: #ff0010;
+  /*
+  animation-name: xmas-colors;
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps;
+  */
+}
 ```
